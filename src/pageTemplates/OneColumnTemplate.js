@@ -1,11 +1,12 @@
-import React from 'react';
-import ContentZone from '../agility/components/ContentZone'
+import React from "react"
 
-const OneColumnTemplate = (props) => {
-    return (
-        <div className="one-column-template">
-            <ContentZone name="MainContentZone" {...props} />
-        </div>
-    );
+import ContentZone from "../agility/components/ContentZone"
+
+const OneColumnTemplate = props => {
+  return (
+    <div className="one-column-template">
+      <ContentZone name="MainContentZone" {...props} />
+    </div>
+  )
 }
-export default OneColumnTemplate;
+export default OneColumnTemplate
