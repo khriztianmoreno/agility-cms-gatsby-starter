@@ -179,7 +179,7 @@ exports.onCreateNode = async ({
             fieldKeys.includes(`width`) &&
             fieldKeys.includes(`height`)
               ) {
-  
+
                   let fileNode = await createRemoteFileNode({
                       url: node.customFields[field].url, // string that points to the URL of the image
                       parentNodeId: node.id, // id of the parent node of the fileNode you are going to create

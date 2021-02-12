@@ -2,14 +2,14 @@ import React from 'react';
 import { Link, graphql, StaticQuery } from 'gatsby'
 import { cleanHTML} from '../agility/utils'
 import truncate from 'truncate-html'
-import './PostListing.css'
 import Img from 'gatsby-image'
+import './ProductListing.css'
 
 export default (props) => (
 	<StaticQuery
 		query={graphql`
-        query PostListingModuleQuery {
-            allAgilityPost(
+        query ProductListingModuleQuery {
+            allAgilityProduct(
               filter: {
                 properties: { referenceName: { eq: "productsdynamiclist"}}
               },
@@ -19,8 +19,8 @@ export default (props) => (
                 nodes {
                     contentID
                     customFields {
-                        title
-                        details
+                        title2
+                        price
                         imageLocalImg {
                             childImageSharp {
                                 fluid(quality: 90, maxWidth: 480, maxHeight: 350) {
@@ -28,9 +28,6 @@ export default (props) => (
                                 }
                               }
                         }
-                    }
-                    sitemapNode {
-                        pagePath
                     }
                     properties {
                         referenceName
@@ -41,46 +38,41 @@ export default (props) => (
         `}
 		render={queryData => {
 			return (
-				<PostsListing posts={queryData.allAgilityPost.nodes} {...props} />
+				<ProductsListing products={queryData.allAgilityProduct.nodes} {...props} />
 			);
 		}}
 	/>
 )
 
-const PostsListing = ({ item, posts }) => {
+const ProductsListing = ({ item, products }) => {
     return (
-        <section className="posts-listing" >
+        <section className="Products-listing" >
             <div className="container">
-                <h1>{item.customFields.title}</h1>
-                <div className="posts-listing-container">
-                    <Posts posts={posts} />
+                <div className="Products-listing-container">
+                    <ProductsComponent products={products} />
                 </div>
             </div>
         </section>
     )
 }
 
-const Posts = ({ posts }) => {
-    return posts.map(post => {
-        return <Post key={post.contentID} post={post} />;
+const ProductsComponent = ({ products }) => {
+    return products.map(product => {
+      return <Product product={product} />;
     })
 }
 
-const Post = ({ post }) => {
-
-    if(!post.sitemapNode) return;
+const Product = ({ product }) => {
     return(
-        <div className="post" key={post.contentID}>
-            <Link to={post.sitemapNode.pagePath}>
-                <PostImage image={post.customFields.imageLocalImg} label={post.customFields.image ? post.customFields.image.label : `Post Image`} />
-                <h2>{post.customFields.title}</h2>
-                <PostExceprt htmlContent={post.customFields.details} />
-            </Link>
+        <div className="Product">
+            <h2>{product.customFields.title2}</h2>
+              <h2>{product.customFields.price}</h2>
+              <ProductImage image={product.customFields.imageLocalImg} label={product.customFields.image ? product.customFields.image.label : `Product Image`} />
         </div>
     )
 }
 
-const PostImage = ({ image, label }) => {
+const ProductImage = ({ image, label }) => {
     let imageToRender = null;
 
     if(image && image.childImageSharp) {
@@ -90,7 +82,7 @@ const PostImage = ({ image, label }) => {
     return imageToRender;
 }
 
-const PostExceprt = ({ htmlContent }) => {
+const ProductExceprt = ({ htmlContent }) => {
     const renderHTML = () => {
         const excerpt = truncate(cleanHTML(htmlContent), { stripTags: true, length: 160 });
 		return { __html: excerpt };

@@ -1,4 +1,5 @@
 import React from "react"
+import ProductListing from '../../modules/ProductsListing.js'
 
 const ContentZone = ({ name, page, dynamicPageItem }) => {
   const Modules = () => {
@@ -16,9 +17,13 @@ const ContentZone = ({ name, page, dynamicPageItem }) => {
       if (moduleItem.item) {
         const moduleDefName = moduleItem.item.properties.definitionName
 
+        console.log(moduleDefName, moduleItem)
+
         try {
           const ModuleComponentToRender = require(`../../modules/${moduleDefName}.js`)
             .default
+
+            console.log(ModuleComponentToRender, `../../modules/${moduleDefName}.js`)
 
           if (ModuleComponentToRender) {
             const moduleProps = {
